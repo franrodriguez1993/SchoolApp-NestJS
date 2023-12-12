@@ -17,6 +17,9 @@ import {
 } from './user.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+import { UserRoles } from '@shared/enum/userRoles.enum';
+import { Auth } from '@shared/decorator/auth.decorator';
+
 @ApiTags('User')
 @Controller('user')
 export class UserController {
@@ -38,6 +41,7 @@ export class UserController {
   }
 
   @Get()
+  @Auth(UserRoles.STUDENT)
   @ApiOperation({ summary: 'Return a user list' })
   @HttpCode(HttpStatus.OK)
   async findAll() {

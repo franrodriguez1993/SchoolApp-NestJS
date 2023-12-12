@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRoles } from './user.dto';
+import { UserRoles } from '@shared/enum/userRoles.enum';
 import { Course } from '@modules/courses/courses.schema';
 import { SchemaTypes } from 'mongoose';
 

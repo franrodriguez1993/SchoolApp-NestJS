@@ -1,5 +1,6 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRoles } from '@shared/enum/userRoles.enum';
 import {
   IsOptional,
   IsString,
@@ -8,12 +9,6 @@ import {
   IsEmail,
   IsEnum,
 } from 'class-validator';
-
-export enum UserRoles {
-  STUDENT = 'STUDENT',
-  TEACHER = 'TEACHER',
-  ADMIN = 'ADMIN',
-}
 
 export class CreateUserDto {
   @IsString()

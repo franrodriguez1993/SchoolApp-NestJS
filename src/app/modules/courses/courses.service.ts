@@ -13,7 +13,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Course, CourseDocument } from './courses.schema';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '@modules/user/user.schema';
-import { UserRoles } from '@modules/user/user.dto';
+import { UserRoles } from '@shared/enum/userRoles.enum';
 import { UnitService } from '@modules/unit/unit.service';
 import { ModuleRef } from '@nestjs/core';
 
