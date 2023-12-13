@@ -5,7 +5,7 @@ import { RolesAuthGuard } from '@shared/guard/roles-auth.guard';
 import { Roles } from './roles.decorator';
 
 //Guard auth + Guard roles
-export function Auth(role: UserRoles) {
+export function AuthSecurityRole(role: UserRoles) {
   return applyDecorators(
     SetMetadata('roles', role),
     Roles(role),

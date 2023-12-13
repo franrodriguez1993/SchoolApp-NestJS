@@ -7,6 +7,7 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
@@ -15,12 +16,14 @@ import {
   UpdateUserDto,
   UpdateUserRoleDto,
 } from './user.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { UserRoles } from '@shared/enum/userRoles.enum';
-import { Auth } from '@shared/decorator/auth.decorator';
+import { AuthSecurityRole } from '@shared/decorator/authSecurityRole.decorator';
+import { AuthGuard } from '@shared/guard/auth.guard';
 
 @ApiTags('User')
+@ApiBearerAuth('access-token')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -41,7 +44,7 @@ export class UserController {
   }
 
   @Get()
-  @Auth(UserRoles.STUDENT)
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Return a user list' })
   @HttpCode(HttpStatus.OK)
   async findAll() {
@@ -50,6 +53,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Get user by id' })
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id') id: string) {
@@ -59,6 +63,7 @@ export class UserController {
 
   @Put(':id')
   @ApiOperation({ summary: 'update user' })
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   async updateData(
     @Param('id') id: string,
@@ -69,6 +74,7 @@ export class UserController {
   }
 
   @Put(':id/role')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'update user role' })
   @HttpCode(HttpStatus.OK)
   async updateRole(
@@ -80,6 +86,7 @@ export class UserController {
   }
 
   @Put(':userId/course/:courseId')
+  @AuthSecurityRole(UserRoles.STUDENT)
   @ApiOperation({ summary: 'Add course to user' })
   @HttpCode(HttpStatus.OK)
   async addCourse(

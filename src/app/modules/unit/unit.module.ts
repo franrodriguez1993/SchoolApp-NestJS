@@ -4,6 +4,7 @@ import { UnitController } from './unit.controller';
 import { Unit, UnitSchema } from './unit.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { SharedModule } from '@shared/shared.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
         schema: UnitSchema,
       },
     ]),
+    SharedModule,
   ],
   controllers: [UnitController],
   providers: [UnitService],

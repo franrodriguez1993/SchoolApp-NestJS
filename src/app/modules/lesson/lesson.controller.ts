@@ -11,14 +11,18 @@ import {
 } from '@nestjs/common';
 import { LessonService } from './lesson.service';
 import { CreateLessonDto, UpdateLessonDto } from './lesson.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthSecurityRole } from '@shared/decorator/authSecurityRole.decorator';
+import { UserRoles } from '@shared/enum/userRoles.enum';
 
 @ApiTags('Lesson')
+@ApiBearerAuth('access-token')
 @Controller('lesson')
 export class LessonController {
   constructor(private readonly lessonService: LessonService) {}
 
   @Post()
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Create new lesson' })
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createLessonDto: CreateLessonDto) {
@@ -43,6 +47,7 @@ export class LessonController {
   }
 
   @Put(':id')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Update lesson by id' })
   @HttpCode(HttpStatus.OK)
   async update(
@@ -54,6 +59,7 @@ export class LessonController {
   }
 
   @Delete(':lessonId/:unitId')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Delete lesson' })
   @HttpCode(HttpStatus.OK)
   async remove(

@@ -11,14 +11,18 @@ import {
 } from '@nestjs/common';
 import { UnitService } from './unit.service';
 import { CreateUnitDto, UpdateUnitDto } from './unit.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthSecurityRole } from '@shared/decorator/authSecurityRole.decorator';
+import { UserRoles } from '@shared/enum/userRoles.enum';
 
 @ApiTags('Unit')
+@ApiBearerAuth('access-token')
 @Controller('unit')
 export class UnitController {
   constructor(private readonly unitService: UnitService) {}
 
   @Post()
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Create new unit' })
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUnitDto: CreateUnitDto) {
@@ -43,6 +47,7 @@ export class UnitController {
   }
 
   @Put(':id')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Update unit by id' })
   @HttpCode(HttpStatus.OK)
   async update(@Param('id') id: string, @Body() updateUnitDto: UpdateUnitDto) {
@@ -51,6 +56,7 @@ export class UnitController {
   }
 
   @Delete(':unitId/:courseId')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'delete unit' })
   @HttpCode(HttpStatus.OK)
   async remove(

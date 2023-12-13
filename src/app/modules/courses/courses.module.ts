@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '@modules/user/user.schema';
 import { Course, CourseSchema } from './courses.schema';
+import { SharedModule } from '@shared/shared.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Course, CourseSchema } from './courses.schema';
         schema: CourseSchema,
       },
     ]),
+    SharedModule,
   ],
   controllers: [CoursesController],
   providers: [CoursesService],

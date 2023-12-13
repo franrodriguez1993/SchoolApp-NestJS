@@ -12,14 +12,18 @@ import {
 import { CoursesService } from './courses.service';
 import { CreateCourseDTO, TeacherCourseDTO } from './courses.dto';
 import { UpdateCourseDTO } from './courses.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthSecurityRole } from '@shared/decorator/authSecurityRole.decorator';
+import { UserRoles } from '@shared/enum/userRoles.enum';
 
 @ApiTags('Course')
+@ApiBearerAuth('access-token')
 @Controller('courses')
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Create new course' })
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createCourseDto: CreateCourseDTO) {
@@ -44,6 +48,7 @@ export class CoursesController {
   }
 
   @Put(':id')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Update course data' })
   @HttpCode(HttpStatus.OK)
   async update(
@@ -58,6 +63,7 @@ export class CoursesController {
   }
 
   @Delete(':id')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Delete course' })
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id') id: string) {
@@ -66,6 +72,7 @@ export class CoursesController {
   }
 
   @Put(':id/teacher')
+  @AuthSecurityRole(UserRoles.ADMIN)
   @ApiOperation({ summary: 'Add new teacher to course' })
   @HttpCode(HttpStatus.OK)
   async addTeacher(

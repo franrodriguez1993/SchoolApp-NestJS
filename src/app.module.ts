@@ -21,6 +21,7 @@ import morganConfig from '@configs/morgan.config';
   ],
   controllers: [],
   providers: [],
+  exports: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
